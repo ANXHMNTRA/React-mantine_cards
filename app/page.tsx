@@ -74,9 +74,9 @@ export default function HomePage() {
               alt={user.name}
             /> </Anchor>
         </Center>
-        <Center><h4> {user.name}
+        <Center><h3> {user.name}
           {isFollowed && <IconStar width={16} height={16} />}
-        </h4></Center>
+        </h3></Center>
         <Anchor c="gray" component={Link} href={`mailto:${user.email}`}
           className='AnchorStyle'
         >

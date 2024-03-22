@@ -64,31 +64,31 @@ export default function HomePage() {
     return (
       <Card {...props} className='card' >
         <Center>
-          <Image
-            radius={"50%"}
-            h={100}
-            w={100}
-            fit="contain"
-            src={`https://api.dicebear.com/7.x/initials/svg?seed=${user.name}`}
-            alt={user.name}
-          />
+          <Anchor c="gray" className='AnchorStyle' component={Link} href={`https://${user.website}`} target="_blank" rel="noopener noreferrer">
+            <Image
+              radius={"50%"}
+              h={130}
+              w={130}
+              fit="contain"
+              src={`https://api.dicebear.com/7.x/initials/svg?seed=${user.name}`}
+              alt={user.name}
+            /> </Anchor>
         </Center>
-        <Center><h2> {user.name}
+        <Center><h4> {user.name}
           {isFollowed && <IconStar width={16} height={16} />}
-        </h2></Center>
-        <Anchor c="gray" component={Link} href={`mailto:${user.email}`} style={{
-          display: "flex",
-          alignItems: "center"
-        }}>
-          <IconAt stroke={1.5} size={15} />
+        </h4></Center>
+        <Anchor c="gray" component={Link} href={`mailto:${user.email}`}
+          className='AnchorStyle'
+        >
+          <IconAt stroke={1.5} size={15} className='iconLogo' />
           {user.email}
         </Anchor>
-        <Anchor c="gray" component={Link} href={`tel:${user.phone}`}>
-          <IconPhone stroke={1.5} size={15} />
+        <Anchor c="gray" className='AnchorStyle' component={Link} href={`tel:${user.phone}`}>
+          <IconPhone stroke={1.5} size={15} className='iconLogo' />
           {user.phone}
         </Anchor>
-        <Anchor c="gray" component={Link} href={`https://${user.website}`} target="_blank" rel="noopener noreferrer">
-          <IconWorldWww stroke={1.5} size={15} />
+        <Anchor c="gray" className='AnchorStyle' component={Link} href={`https://${user.website}`} target="_blank" rel="noopener noreferrer">
+          <IconWorldWww stroke={1.5} size={15} className='iconLogo' />
           {user.website}
         </Anchor>
 
@@ -109,7 +109,7 @@ export default function HomePage() {
           </Button>
           <Button fullWidth variant='outline' onClick={() => handleDelete(user.id)}>
 
-            <IconTrash width={16} height={16} /> delete</Button>
+            <IconTrash width={16} height={16} /> Delete</Button>
         </Flex>
       </Card>
     );
@@ -131,7 +131,7 @@ export default function HomePage() {
     fetchUsers();
   }, []);
 
-  const handleDelete = (id) => {
+  const handleDelete = (id: any) => {
     const updatedData = users.filter((item) => item.id !== id);
     setUsers(updatedData);
   };
@@ -145,7 +145,7 @@ export default function HomePage() {
           margin: 10
         }}>
         {users.map(user => (
-          <Grid.Col span={3} key={user.id}>
+          <Grid.Col span={{ base: 12, md: 6, lg: 3 }} key={user.id} >
             <UserCard
               handleDelete={handleDelete}
               key={user.id}
@@ -155,7 +155,7 @@ export default function HomePage() {
               radius="md"
               style={{
                 minWidth: 200,
-                // width: 'calc(110% / 4)', // Initially show 4 cards in a row
+                // width: 'calc(100% / 4)', // Initially show 4 cards in a row
                 // '@media (max-width: 1200px)': {
                 //   width: 'calc(100% / 2)' // Show 2 cards in a row on screens up to 1200px
                 // },

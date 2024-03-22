@@ -1,5 +1,16 @@
 
 
 .card{
-    /* border-color: var(--mantine-color-gray-3); */
+    border: calc(0.0625rem* var(--mantine-scale)) solid var(--mantine-color-gray-3);
+} 
+.AnchorStyle{
+    display: flex ;
+    align-items: center;
+    /* background-color: red ; */
+}
+
+.iconLogo{
+    margin-right: 6px ;
+    /* padding: var(--mantine-spacing-sm); */
+
 }

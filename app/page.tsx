@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { Grid, Card, CardProps, Text, Button, Anchor, Center, Image, Flex } from '@mantine/core';
 import { IconAt, IconWorldWww, IconPhone, IconStar, IconTrash, IconUserPlus } from '@tabler/icons-react';
 import Link from 'next/link';
+import "./demo.css"
 
 interface Address {
   street: string;
@@ -36,13 +37,14 @@ interface User {
 interface UserCardProps extends CardProps {
   user: User;
   className?: string;
+  handleDelete: (id: number) => void;
 }
 
 export default function HomePage() {
   const [users, setUsers] = useState<User[]>([]);
 
 
-  const UserCard: React.FC<UserCardProps> = ({ user, className, ...props }) => {
+  const UserCard: React.FC<UserCardProps> = ({ user, className, handleDelete, ...props }) => {
     const [isFollowed, setIsFollowed] = useState(false);
 
     const handleFollowToggle = () => {
@@ -60,7 +62,7 @@ export default function HomePage() {
       window.open(`https://${user.website}`, '_blank');
     };
     return (
-      <Card {...props} >
+      <Card {...props} className='card' >
         <Center>
           <Image
             radius={"50%"}
@@ -72,18 +74,21 @@ export default function HomePage() {
           />
         </Center>
         <Center><h2> {user.name}
-          {isFollowed && <IconStar />}
+          {isFollowed && <IconStar width={16} height={16} />}
         </h2></Center>
-        <Anchor c="gray" component={Link} href={`mailto:${user.email}`}>
-          <IconAt stroke={1.5} />
+        <Anchor c="gray" component={Link} href={`mailto:${user.email}`} style={{
+          display: "flex",
+          alignItems: "center"
+        }}>
+          <IconAt stroke={1.5} size={15} />
           {user.email}
         </Anchor>
         <Anchor c="gray" component={Link} href={`tel:${user.phone}`}>
-          <IconPhone stroke={1.5} size={"1.5rem"} />
+          <IconPhone stroke={1.5} size={15} />
           {user.phone}
         </Anchor>
         <Anchor c="gray" component={Link} href={`https://${user.website}`} target="_blank" rel="noopener noreferrer">
-          <IconWorldWww stroke={1.5} size={"1.5rem"} />
+          <IconWorldWww stroke={1.5} size={15} />
           {user.website}
         </Anchor>
 
@@ -102,7 +107,9 @@ export default function HomePage() {
             <IconUserPlus width={16} height={16} />
             {isFollowed ? 'Unfollow' : 'Follow'}
           </Button>
-          <Button fullWidth variant='outline'><IconTrash width={16} height={16} /> delete</Button>
+          <Button fullWidth variant='outline' onClick={() => handleDelete(user.id)}>
+
+            <IconTrash width={16} height={16} /> delete</Button>
         </Flex>
       </Card>
     );
@@ -124,6 +131,11 @@ export default function HomePage() {
     fetchUsers();
   }, []);
 
+  const handleDelete = (id) => {
+    const updatedData = users.filter((item) => item.id !== id);
+    setUsers(updatedData);
+  };
+
   return (
     <div>
       <Grid
@@ -135,15 +147,14 @@ export default function HomePage() {
         {users.map(user => (
           <Grid.Col span={3} key={user.id}>
             <UserCard
+              handleDelete={handleDelete}
               key={user.id}
               user={user}
-              // shadow="md"
+              shadow="md"
               // padding="md"
               radius="md"
               style={{
                 minWidth: 200,
-                borderColor: "#dee2e6",
-                margin: "auto",
                 // width: 'calc(110% / 4)', // Initially show 4 cards in a row
                 // '@media (max-width: 1200px)': {
                 //   width: 'calc(100% / 2)' // Show 2 cards in a row on screens up to 1200px
